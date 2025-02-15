@@ -108,7 +108,7 @@ void MainWindow::addConfig()
 
 void MainWindow::deleteConfig()
 {
-    if (selectedConfig == "")
+    if (selectedConfig == "" || !config.getWaypaperConfigs().contains(selectedConfig))
     {
         ui->statusbar->showMessage("Select a config");
         return;
@@ -124,7 +124,7 @@ void MainWindow::deleteConfig()
 
 void MainWindow::renameConfig()
 {
-    if (selectedConfig == "")
+    if (selectedConfig == "" || !config.getWaypaperConfigs().contains(selectedConfig))
     {
         ui->statusbar->showMessage("Select a config");
         return;

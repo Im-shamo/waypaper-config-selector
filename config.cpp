@@ -161,7 +161,7 @@ void Config::deleteConfig(const QString& name)
 
     if (currentConfig == name)
     {
-        qDebug() << "Cannot deletee currenly using config!";
+        qDebug() << "Cannot delete currenly using config!";
         return;
     }
 

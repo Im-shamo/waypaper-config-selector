@@ -466,6 +466,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>renameButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>renameConfig()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>400</x>
+     <y>534</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>addConfig()</slot>
