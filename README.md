@@ -8,9 +8,7 @@ On All Linux distributions
 Clone the rep
 
 # Screenshots
-![2025-02-05-032525_hyprshot](https://github.com/user-attachments/assets/bccfa773-2dfc-4f0a-89ae-e4273090fb56)
-
-
+![screenshot](https://github.com/user-attachments/assets/7974a3b4-7a69-486d-a805-54d757006fda)
 
 # Usage
 
