@@ -29,19 +29,20 @@ private slots:
     void addConfig();
     void deleteConfig();
     void renameConfig();
+    void setAutoChangeBackend(bool checked);
+    void openPreferenceDialogue();
 
 private:
     Ui::MainWindow *ui;
     Config &config;
     QString usingConfig;
     QString selectedConfig;
-    QGridLayout *configGrid;
     QList<QPushButton*> buttonList;
     int columnSize;
 
-    void createButtonGrid();
     void loadButtons();
     void reloadButtons();
     void setUsingLabel();
+    void loadOptions();
 };
 #endif // MAINWINDOW_H

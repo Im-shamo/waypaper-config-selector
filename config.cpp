@@ -4,16 +4,27 @@
 
 Config::Config()
     : settings("Im-Shamo", "Waypaper-config-selector")
-    , configFolderPath(QDir::homePath().append("/.config/waypaper-config-selector/waypaper_configs"))
+    , configFolderPath(QDir::homePath().append("/.config/waypaper-config-selector"))
     , waypaperConfigsFolderPath(QDir::homePath().append("/.config/waypaper-config-selector/waypaper_configs"))
     , waypaperConfigFilePath(QDir::homePath().append("/.config/waypaper/config.ini"))
     , currentConfig(settings.value("current").toString())
+    , autoChangeBackend(settings.value("auto_change_backend").toBool())
+    , windowSystem(currentWindowSystem())
+    , xorgBackends{"feh", "mpvpaper", "wallutils"}
+    , waylandBackends{"hyprpaper", "swaybg", "swww", "wallutils"}
+    , xorgBackendPreference(settings.value("xorg_backend_preference").toString())
+    , waylandBackendPreference(settings.value("wayland_backend_preference").toString())
 {
     scanDir();
-    qDebug() << configFolderPath;
-    qDebug() << waypaperConfigsFolderPath;
-    qDebug() << waypaperConfigFilePath;
+    qDebug() << configFolderPath.absolutePath();
+    qDebug() << waypaperConfigsFolderPath.absolutePath();
+    qDebug() << waypaperConfigFilePath.absolutePath();
     qDebug() << waypaperConfigs;
+    qDebug() << "Window System: " << windowSystem;
+    qDebug() << "Xorg backend preference: " << xorgBackendPreference;
+    qDebug() << "Xorg backends: " << xorgBackends;
+    qDebug() << "Wayland backend preference: " << waylandBackendPreference;
+    qDebug() << "Wayland backends: " << waylandBackends;
 }
 
 void Config::scanDir()
@@ -193,4 +204,25 @@ void Config::addConfig(const QDir& filePath, const QString& name)
         qDebug() << "Failed to copy " << filePath.absolutePath() << " To " << configPath.absolutePath();
     }
     scanDir();
+}
+
+void Config::setAutoChangeBackend(bool set)
+{
+    autoChangeBackend = set;
+    settings.setValue("auto_change_backend", set);
+}
+
+bool Config::getAutoChangeBackend()
+{
+    return autoChangeBackend;
+}
+
+QStringList& Config::getXorgBackends()
+{
+    return xorgBackends;
+}
+
+QStringList& Config::getWaylandBackends()
+{
+    return waylandBackends;
 }

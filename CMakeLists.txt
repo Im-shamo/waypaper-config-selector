@@ -24,6 +24,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         config.h config.cpp
+        utils.cpp
+        utils.h
+        preference.h preference.cpp preference.ui
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET waypaper-config-selector APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

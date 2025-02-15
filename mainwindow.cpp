@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "preference.h"
 #include "config.h"
 #include "./ui_mainwindow.h"
 
@@ -21,38 +22,17 @@ MainWindow::MainWindow(Config &config, int columnSize, QWidget *parent)
     , config(config)
     , usingConfig(config.getCurrentConfig())
     , selectedConfig("")
-    , configGrid(new QGridLayout())
     , columnSize(columnSize)
 {
     ui->setupUi(this);
-    createButtonGrid();
-
     setUsingLabel();
     loadButtons();
+    loadOptions();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::createButtonGrid()
-{
-    QVBoxLayout *vbox = new QVBoxLayout();
-    QHBoxLayout *hbox = new QHBoxLayout();
-
-    QSpacerItem *leftSpacer = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Ignored);
-    QSpacerItem *rightSpacer = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Ignored);
-    QSpacerItem *bottomSpacer = new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::Expanding);
-
-    hbox->setSpacing(10);
-    hbox->addSpacerItem(leftSpacer);
-    hbox->addLayout(configGrid);
-    hbox->addSpacerItem(rightSpacer);
-
-    vbox->addLayout(hbox);
-    vbox->addSpacerItem(bottomSpacer);
-    ui->configWidget->setLayout(vbox);
 }
 
 void MainWindow::loadButtons()
@@ -70,9 +50,14 @@ void MainWindow::loadButtons()
         connect(button, &QPushButton::clicked, this, [=]() {
             this->selectConfig(name);
         });
-        configGrid->addWidget(button, row, column);
+        ui->configGrid->addWidget(button, row, column);
         index++;
     }
+}
+
+void MainWindow::loadOptions()
+{
+    ui->autoChangeBackendAction->setChecked(config.getAutoChangeBackend());
 }
 
 void MainWindow::reloadButtons()
@@ -80,7 +65,7 @@ void MainWindow::reloadButtons()
     // Clear the buttons
     for (QPushButton *button : buttonList)
     {
-        configGrid->removeWidget(button);
+        ui->configGrid->removeWidget(button);
         delete button;
     }
     loadButtons();
@@ -162,4 +147,16 @@ void MainWindow::renameConfig()
     config.renameConfig(selectedConfig, newName);
     reloadButtons();
     selectedConfig = "";
+}
+
+void MainWindow::setAutoChangeBackend(bool checked)
+{
+    qDebug() << "Set AudoChangeBackend to " << checked;
+    config.setAutoChangeBackend(checked);
+}
+
+void MainWindow::openPreferenceDialogue()
+{
+    Preference *widget = new Preference(config);
+    widget->show();
 }
