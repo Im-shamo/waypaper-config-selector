@@ -29,8 +29,8 @@ private slots:
     void addConfig();
     void deleteConfig();
     void renameConfig();
-    void setAutoChangeBackend(bool checked);
     void openPreferenceDialogue();
+    void setWindowSystem(int index);
 
 private:
     Ui::MainWindow *ui;

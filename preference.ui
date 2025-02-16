@@ -15,24 +15,35 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QFormLayout" name="formLayout_3">
-     <item row="0" column="1">
-      <widget class="QComboBox" name="waylandBackendComboBox"/>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <layout class="QFormLayout" name="formLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="waylandBackendLabel">
+         <property name="text">
+          <string>Wayland Backend</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="waylandBackendComboBox"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="xorgBackendLabel">
+         <property name="text">
+          <string>Xorg Backend</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="xorgBackendComboBox"/>
+       </item>
+      </layout>
      </item>
-     <item row="1" column="1">
-      <widget class="QComboBox" name="xorgBackendComboBox"/>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="waylandBackendLabel">
+     <item>
+      <widget class="QCheckBox" name="autoBackendCheckBox">
        <property name="text">
-        <string>Wayland Backend</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="xorgBackendLabel">
-       <property name="text">
-        <string>Xorg Backend</string>
+        <string>Automatically Change Backend</string>
        </property>
       </widget>
      </item>
@@ -84,5 +95,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>Preference</sender>
+   <signal>finished(int)</signal>
+   <receiver>Preference</receiver>
+   <slot>saveConfig(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>saveConfig(int)</slot>
+ </slots>
 </ui>

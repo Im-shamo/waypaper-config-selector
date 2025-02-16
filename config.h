@@ -15,14 +15,25 @@ public:
 
     const QStringList& getWaypaperConfigs();
     const QString& getCurrentConfig();
-    QDir getCurrentConfigPath();
-    QDir getConfigPath(const QString& name);
-    void setAutoChangeBackend(bool set);
-    bool getAutoChangeBackend();
-    WindowSystem getWindowSystem();
-    QStringList& getWaylandBackends();
-    QStringList& getXorgBackends();
 
+    QDir getCurrentConfigPath() const;
+    QDir getConfigPath(const QString& name) const;
+
+    void setAutoChangeBackend(bool set);
+    bool getAutoChangeBackend() const;
+
+    WindowSystem getWindowSystem() const;
+    void setWindowSystem(WindowSystem sys);
+
+    const QStringList& getWindowSystemList() const;
+    const QStringList& getWaylandBackends() const;
+    const QStringList& getXorgBackends() const;
+
+    void setXorgBackendPreference(const QString& backend);
+    const QString& getXorgBackendPreference() const;
+
+    void setWaylandBackendPreference(const QString& backend);
+    const QString& getWaylandBackendPreference() const;
 
     void setCurrentConfig(const QString& name);
     void renameConfig(const QString& name, const QString& newName);
@@ -40,7 +51,10 @@ private:
     QStringList waylandBackends;
     QString xorgBackendPreference;
     QString waylandBackendPreference;
+    QStringList windowSystemList;
     WindowSystem windowSystem;
     bool autoChangeBackend;
+
+    WindowSystem getWindowSystemFromSettings() const;
 };
 #endif // CONFIG_H

@@ -84,6 +84,9 @@
          </widget>
         </item>
         <item>
+         <widget class="QComboBox" name="windowSystemComboBox"/>
+        </item>
+        <item>
          <spacer name="topBoxRightSpacer">
           <property name="orientation">
            <enum>Qt::Orientation::Horizontal</enum>
@@ -348,7 +351,6 @@
     <property name="title">
      <string>Settings</string>
     </property>
-    <addaction name="autoChangeBackendAction"/>
     <addaction name="actionPreferences"/>
    </widget>
    <addaction name="menuSettings"/>
@@ -409,7 +411,7 @@
    <slot>useConfig()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>324</x>
+     <x>263</x>
      <y>61</y>
     </hint>
     <hint type="destinationlabel">
@@ -425,28 +427,12 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>476</x>
+     <x>415</x>
      <y>59</y>
     </hint>
     <hint type="destinationlabel">
      <x>415</x>
      <y>89</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>autoChangeBackendAction</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>setAutoChangeBackend(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>299</y>
     </hint>
    </hints>
   </connection>
@@ -482,6 +468,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>windowSystemComboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setWindowSystem(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>512</x>
+     <y>62</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>527</x>
+     <y>102</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>addConfig()</slot>
@@ -490,5 +492,6 @@
   <slot>renameConfig()</slot>
   <slot>setAutoChangeBackend(bool)</slot>
   <slot>openPreferenceDialogue()</slot>
+  <slot>setWindowSystem(int)</slot>
  </slots>
 </ui>

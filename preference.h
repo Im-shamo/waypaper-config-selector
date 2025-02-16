@@ -15,6 +15,8 @@ class Preference : public QDialog
 public:
     explicit Preference(Config &config, QWidget *parent = nullptr);
     ~Preference();
+private slots:
+    void saveConfig(int result);
 
 private:
     Ui::Preference *ui;

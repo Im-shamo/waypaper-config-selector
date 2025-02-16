@@ -19,4 +19,18 @@ void Preference::loadComboBox()
 {
     ui->xorgBackendComboBox->addItems(config.getXorgBackends());
     ui->waylandBackendComboBox->addItems(config.getWaylandBackends());
+
+    ui->xorgBackendComboBox->setCurrentText(config.getXorgBackendPreference());
+    ui->waylandBackendComboBox->setCurrentText(config.getWaylandBackendPreference());
+    ui->autoBackendCheckBox->setChecked(config.getAutoChangeBackend());
+}
+
+void Preference::saveConfig(int result)
+{
+    if (result == DialogCode::Accepted)
+    {
+        config.setXorgBackendPreference(ui->xorgBackendComboBox->currentText());
+        config.setWaylandBackendPreference(ui->waylandBackendComboBox->currentText());
+        config.setAutoChangeBackend(ui->autoBackendCheckBox->isChecked());
+    }
 }

@@ -57,7 +57,9 @@ void MainWindow::loadButtons()
 
 void MainWindow::loadOptions()
 {
-    ui->autoChangeBackendAction->setChecked(config.getAutoChangeBackend());
+    WindowSystem sys = config.getWindowSystem();
+    ui->windowSystemComboBox->insertItems(0, config.getWindowSystemList());
+    ui->windowSystemComboBox->setCurrentIndex(sys);
 }
 
 void MainWindow::reloadButtons()
@@ -149,14 +151,15 @@ void MainWindow::renameConfig()
     selectedConfig = "";
 }
 
-void MainWindow::setAutoChangeBackend(bool checked)
-{
-    qDebug() << "Set AudoChangeBackend to " << checked;
-    config.setAutoChangeBackend(checked);
-}
-
 void MainWindow::openPreferenceDialogue()
 {
     Preference *widget = new Preference(config);
+    widget->setModal(true);
     widget->show();
+}
+
+void MainWindow::setWindowSystem(int index)
+{
+    // qDebug() << config.getWindowSystemList()[index];
+    config.setWindowSystem(static_cast<WindowSystem>(index));
 }
