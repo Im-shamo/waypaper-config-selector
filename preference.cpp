@@ -22,7 +22,8 @@ void Preference::loadComboBox()
 
     ui->xorgBackendComboBox->setCurrentText(config.getXorgBackendPreference());
     ui->waylandBackendComboBox->setCurrentText(config.getWaylandBackendPreference());
-    ui->autoBackendCheckBox->setChecked(config.getAutoChangeBackend());
+    ui->autoWindowSystemCheckBox->setChecked(config.getAutoChangeWindowSystem());
+    ui->autoChangeBackendCheckBox->setChecked(config.getAutoChangeBackend());
 }
 
 void Preference::saveConfig(int result)
@@ -31,6 +32,7 @@ void Preference::saveConfig(int result)
     {
         config.setXorgBackendPreference(ui->xorgBackendComboBox->currentText());
         config.setWaylandBackendPreference(ui->waylandBackendComboBox->currentText());
-        config.setAutoChangeBackend(ui->autoBackendCheckBox->isChecked());
+        config.setAutoChangeWindowSystem(ui->autoWindowSystemCheckBox->isChecked());
+        config.setAutoChangeBackend(ui->autoChangeBackendCheckBox->isChecked());
     }
 }

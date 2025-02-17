@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include "QtLogging"
+
 
 #include <QApplication>
 #include "config.h"

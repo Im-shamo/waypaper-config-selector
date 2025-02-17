@@ -25,6 +25,7 @@ public:
 
 private slots:
     void selectConfig(const QString &name);
+    void selectAndUseConfig(const QString &name);
     void useConfig();
     void addConfig();
     void deleteConfig();

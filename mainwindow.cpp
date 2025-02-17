@@ -65,7 +65,7 @@ void MainWindow::loadOptions()
 void MainWindow::reloadButtons()
 {
     // Clear the buttons
-    for (QPushButton *button : buttonList)
+    for (QPushButton *button : std::as_const(buttonList))
     {
         ui->configGrid->removeWidget(button);
         delete button;
@@ -80,17 +80,37 @@ void MainWindow::setUsingLabel()
 
 void MainWindow::selectConfig(const QString &name)
 {
-    QString message("Selected " + name);
-    qDebug() << message;
     ui->selectedLabel->setText(name);
+    ui->backendLabel->setText(config.getConfigSettings(name, "Settings/backend", "/").toString());
     selectedConfig = name;
+    qDebug() << "Selected " + name;
 }
 
 void MainWindow::useConfig()
 {
     usingConfig = selectedConfig;
+    if (config.getAutoChangeBackend())
+    {
+        switch (config.getWindowSystem())
+        {
+        case WindowSystem::xorg:
+            config.changeConfigSettings(usingConfig, "Settings/backend", config.getXorgBackendPreference());
+            break;
+
+        case WindowSystem::wayland:
+            config.changeConfigSettings(usingConfig, "Settings/backend", config.getWaylandBackendPreference());
+            break;
+        }
+    }
+    ui->backendLabel->setText(config.getConfigSettings(usingConfig, "Settings/backend", "/").toString());
     setUsingLabel();
-    config.setCurrentConfig(selectedConfig);
+    config.setCurrentConfig(usingConfig);
+}
+
+void MainWindow::selectAndUseConfig(const QString &name)
+{
+    selectConfig(name);
+    useConfig();
 }
 
 void MainWindow::addConfig()
@@ -160,6 +180,5 @@ void MainWindow::openPreferenceDialogue()
 
 void MainWindow::setWindowSystem(int index)
 {
-    // qDebug() << config.getWindowSystemList()[index];
     config.setWindowSystem(static_cast<WindowSystem>(index));
 }

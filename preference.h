@@ -20,7 +20,7 @@ private slots:
 
 private:
     Ui::Preference *ui;
-    Config& config;
+    Config &config;
 
     void loadComboBox();
 };
