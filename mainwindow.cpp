@@ -121,7 +121,9 @@ void MainWindow::addConfig()
 
     if (name == "")
     {
-        name = filePath.split("/").last();
+        QStringList part = filePath.split("/").last().split(".");
+        part.pop_back();
+        name = part.join("");
     }
 
     config.addConfig(QDir(filePath), name);

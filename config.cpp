@@ -1,9 +1,10 @@
 #include "config.h"
 #include <QFile>
 #include <QFileInfo>
+#include <QJsonArray>
 
 Config::Config()
-    : settings("Im-Shamo", "Waypaper-config-selector")
+    : settings("Im-shamo", "waypaper-config-selector")
     , configFolderPath(QDir::homePath().append("/.config/waypaper-config-selector"))
     , waypaperConfigsFolderPath(QDir::homePath().append("/.config/waypaper-config-selector/waypaper_configs"))
     , waypaperConfigFilePath(QDir::homePath().append("/.config/waypaper/config.ini"))
@@ -22,11 +23,12 @@ Config::Config()
     {
         setWindowSystem(currentWindowSystem());
     }
-    qDebug() << configFolderPath.absolutePath();
-    qDebug() << waypaperConfigsFolderPath.absolutePath();
-    qDebug() << waypaperConfigFilePath.absolutePath();
-    qDebug() << waypaperConfigs;
-    qDebug() << "Window System: " << windowSystem;
+    qDebug() << "---- config ----";
+    qDebug() << "Config Folder: " << configFolderPath.absolutePath();
+    qDebug() << "waypaper_configs foler:" << waypaperConfigsFolderPath.absolutePath();
+    qDebug() << "waypaper config: " << waypaperConfigFilePath.absolutePath();
+    qDebug() << "configs:: " << waypaperConfigs;
+    qDebug() << "Window System: " << windowSystemList[windowSystem];
     qDebug() << "Xorg backend preference: " << xorgBackendPreference;
     qDebug() << "Xorg backends: " << xorgBackends;
     qDebug() << "Wayland backend preference: " << waylandBackendPreference;
@@ -35,6 +37,7 @@ Config::Config()
 
 void Config::scanDir()
 {
+    qDebug() << "---- scanDir ----";
     waypaperConfigs.clear();
     QStringList filenames = waypaperConfigsFolderPath.entryList(
         QDir::Files | QDir::NoDot | QDir::Readable | QDir::Writable);
@@ -45,23 +48,26 @@ void Config::scanDir()
         if (parts.last().contains("ini", Qt::CaseInsensitive))
         {
             parts.pop_back();
-            waypaperConfigs.push_back(parts.join(""));
+            waypaperConfigs.push_back(parts.join("."));
         }
     }
 }
 
 const QStringList &Config::getWaypaperConfigs()
 {
+    qDebug() << "---- getWaypaperConfigs ----";
     return waypaperConfigs;
 }
 
 const QString &Config::getCurrentConfig()
 {
+    qDebug() << "---- getCurrentConfig ----";
     return currentConfig;
 }
 
 QDir Config::getCurrentConfigPath() const
 {
+    qDebug() << "---- getCurrentConfigPath ----";
     return QDir(
         waypaperConfigsFolderPath
             .absolutePath()
@@ -72,6 +78,7 @@ QDir Config::getCurrentConfigPath() const
 
 QDir Config::getConfigPath(const QString &name) const
 {
+    qDebug() << "---- getConfigPath ----";
     return QDir(
         waypaperConfigsFolderPath
             .absolutePath()
@@ -82,6 +89,13 @@ QDir Config::getConfigPath(const QString &name) const
 
 void Config::setCurrentConfig(const QString &name)
 {
+    qDebug() << "---- setCurrentConfig ----";
+    if(!waypaperConfigs.contains(name))
+    {
+        qDebug() << name << "does not exists!";
+        return;
+    }
+
     currentConfig = name;
     settings.setValue("current", name);
 
@@ -119,6 +133,7 @@ void Config::setCurrentConfig(const QString &name)
         else
         {
             qDebug() << "Failed to rename" << waypaperConfigFileInfo.fileName();
+            return;
         }
     }
 
@@ -128,6 +143,7 @@ void Config::setCurrentConfig(const QString &name)
 
 void Config::renameConfig(const QString &name, const QString &newName)
 {
+    qDebug() << "---- renameConfig ----";
     if(!waypaperConfigs.contains(name))
     {
         qDebug() << name << "does not exists!";
@@ -160,6 +176,7 @@ void Config::renameConfig(const QString &name, const QString &newName)
 
 void Config::deleteConfig(const QString &name)
 {
+    qDebug() << "---- deleteConfig ----";
     if(!waypaperConfigs.contains(name))
     {
         qDebug() << name << "does not exists!";
@@ -191,6 +208,7 @@ void Config::deleteConfig(const QString &name)
 
 void Config::addConfig(const QDir &filePath, const QString &name)
 {
+    qDebug() << "---- addConfig ----";
     QFile file(filePath.absolutePath());
     QFileInfo fileInfo(file);
 
@@ -213,8 +231,33 @@ void Config::addConfig(const QDir &filePath, const QString &name)
     scanDir();
 }
 
+void Config::addConfig(const QDir &filePath)
+{
+    qDebug() << "---- addConfig ----";
+    QFile file(filePath.absolutePath());
+    QFileInfo fileInfo(file);
+
+    if (!fileInfo.isFile())
+    {
+        qDebug() << filePath << " is not a file!";
+        return;
+    }
+
+    QDir configPath(waypaperConfigsFolderPath.absolutePath().append("/").append(fileInfo.fileName()));
+    if (file.copy(configPath.absolutePath()))
+    {
+        qDebug() << "Copied " << filePath.absolutePath() << " To " << configPath.absolutePath();
+    }
+    else
+    {
+        qDebug() << "Failed to copy " << filePath.absolutePath() << " To " << configPath.absolutePath();
+    }
+    scanDir();
+}
+
 void Config::setAutoChangeWindowSystem(bool set)
 {
+    qDebug() << "---- setAutoChangeWindowSystem ----";
     autoChangeWindowSystem = set;
     settings.setValue("auto_change_window_system", set);
     qDebug() << "set auto_change_window_system to " << set;
@@ -222,11 +265,13 @@ void Config::setAutoChangeWindowSystem(bool set)
 
 bool Config::getAutoChangeWindowSystem() const
 {
+    qDebug() << "---- getAutoChangeWindowSystem ----";
     return autoChangeWindowSystem;
 }
 
 const QStringList &Config::getXorgBackends() const
 {
+    qDebug() << "---- getXorgBackends ----";
     return xorgBackends;
 }
 
@@ -237,6 +282,7 @@ const QStringList &Config::getWaylandBackends() const
 
 void Config::setXorgBackendPreference(const QString &backend)
 {
+    qDebug() << "---- setXorgBackendPreference ----";
     if (xorgBackends.contains(backend))
     {
         qDebug() << "Set xorg backend preference to " << backend;
@@ -251,11 +297,13 @@ void Config::setXorgBackendPreference(const QString &backend)
 
 const QString &Config::getXorgBackendPreference() const
 {
+    qDebug() << "---- getWindowSystem ----";
     return xorgBackendPreference;
 }
 
 void Config::setWaylandBackendPreference(const QString &backend)
 {
+    qDebug() << "---- setWaylandBackendPreference ----";
     if (waylandBackends.contains(backend))
     {
         qDebug() << "Set wayland backend preference to " << backend;
@@ -270,21 +318,25 @@ void Config::setWaylandBackendPreference(const QString &backend)
 
 const QString &Config::getWaylandBackendPreference() const
 {
+    qDebug() << "---- getWindowSystem ----";
     return waylandBackendPreference;
 }
 
 WindowSystem Config::getWindowSystem() const
 {
+    qDebug() << "---- getWindowSystem ----";
     return windowSystem;
 }
 
 const QStringList &Config::getWindowSystemList() const
 {
+    qDebug() << "---- getWindowSystemList ----";
     return windowSystemList;
 }
 
 WindowSystem Config::getWindowSystemFromSettings() const
 {
+    qDebug() << "---- getWindowSystemFromSettings ----";
     QString sys = settings.value("window_system").toString();
     qDebug() << "window_system: " << sys;
     if (sys == windowSystemList[1])
@@ -299,6 +351,7 @@ WindowSystem Config::getWindowSystemFromSettings() const
 
 void Config::setWindowSystem(WindowSystem sys)
 {
+    qDebug() << "---- setWindowSystem ----";
     settings.setValue("window_system", windowSystemList[sys]);
     windowSystem = sys;
     qDebug() << "Set window_system to " << windowSystemList[sys];
@@ -306,17 +359,20 @@ void Config::setWindowSystem(WindowSystem sys)
 
 void Config::changeConfigSettings(const QString &name, const QString &key, const QVariant &value) const
 {
+    qDebug() << "---- getConfigSettings ----";
     if (!waypaperConfigs.contains(name))
     {
         qDebug() << name << "does not exists";
         return;
     }
+    qDebug() << "Set " << name << " setting " << key << " to " << value;
     QSettings configSettings(getConfigPath(name).absolutePath(), QSettings::Format::IniFormat);
     configSettings.setValue(key, value);
 }
 
 QVariant Config::getConfigSettings(const QString &name, const QString &key, const QVariant &defaultValue)
 {
+    qDebug() << "---- getConfigSettings ----";
     if (!waypaperConfigs.contains(name))
     {
         qDebug() << name << "does not exists";
@@ -328,6 +384,7 @@ QVariant Config::getConfigSettings(const QString &name, const QString &key, cons
 
 void Config::setAutoChangeBackend(bool set)
 {
+    qDebug() << "---- setAutoChangeBackend ----";
     autoChangeBackend = set;
     settings.setValue("auto_change_backend", set);
     qDebug() << "set auto_change_backend to " << set;
@@ -335,5 +392,6 @@ void Config::setAutoChangeBackend(bool set)
 
 bool Config::getAutoChangeBackend() const
 {
+    qDebug() << "---- getAutoChangeBackend ----";
     return autoChangeBackend;
 }

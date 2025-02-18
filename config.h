@@ -1,10 +1,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <QString>
 #include <QDir>
 #include <QSettings>
 #include <QStringList>
+#include <QJsonObject>
 #include "utils.h"
 
 class Config
@@ -42,6 +42,7 @@ public:
     void renameConfig(const QString &name, const QString &newName);
     void deleteConfig(const QString &name);
     void addConfig(const QDir &filePath, const QString &name);
+    void addConfig(const QDir &filePath);
     void changeConfigSettings(const QString &name, const QString &key, const QVariant &value) const;
     QVariant getConfigSettings(const QString &name, const QString &key, const QVariant &defaultValue);
 

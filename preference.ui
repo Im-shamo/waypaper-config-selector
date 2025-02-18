@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Preference</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -43,7 +43,7 @@
      <item>
       <widget class="QCheckBox" name="autoWindowSystemCheckBox">
        <property name="text">
-        <string>Automatically Change WIndow System ( xorg / wayland )</string>
+        <string>Automatically Change Window System ( xorg / wayland )</string>
        </property>
       </widget>
      </item>
