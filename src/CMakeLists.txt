@@ -1,8 +1,8 @@
 qt_add_executable(waypaper-config-selector
-    mainwindow.h mainwindow.ui mainwindow.cpp
-    preference.h preference.ui preference.cpp
-    config.h config.cpp
-    utils.h utils.cpp
+    mainwindow.ui mainwindow.cpp
+    preference.ui preference.cpp
+    config.cpp
+    utils.cpp
     main.cpp
 )
 
