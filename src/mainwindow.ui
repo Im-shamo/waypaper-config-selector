@@ -200,7 +200,20 @@
                </spacer>
               </item>
               <item>
-               <layout class="QGridLayout" name="configGrid"/>
+               <layout class="QGridLayout" name="configGrid">
+                <property name="leftMargin">
+                 <number>10</number>
+                </property>
+                <property name="topMargin">
+                 <number>10</number>
+                </property>
+                <property name="rightMargin">
+                 <number>9</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>10</number>
+                </property>
+               </layout>
               </item>
               <item>
                <spacer name="configLeftSpacer">
